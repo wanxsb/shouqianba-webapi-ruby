@@ -57,9 +57,9 @@ module Shouqianba
         }.merge({
           payway: options[:payway],
           description: options[:description],
-          longitude: options[:longitude]
-          latitude: options[:latitude]
-          device_id: options[:device_id]
+          longitude: options[:longitude],
+          latitude: options[:latitude],
+          device_id: options[:device_id],
           extended: options[:extended],
           reflect: options[:reflect],
           notify_url: options[:notify_url]
@@ -134,7 +134,7 @@ module Shouqianba
       end
     end
 
-    def self.wap2_url(vendor_sn, vendor_key, terminal_sn, client_sn, total_amount, subject, operator, return_url, options)
+    def self.wap2_url(vendor_sn, vendor_key, terminal_sn, client_sn, total_amount, subject, operator, return_url, options={})
       params = {
         terminal_sn: terminal_sn,
         client_sn: client_sn,
@@ -150,7 +150,8 @@ module Shouqianba
         reflect: options[:reflect],
         notify_url: options[:notify_url]
         })
-      params[:sign] = get_sign(params, vendor_key)
+      body = params.is_a?(String) ? params : JSON.generate(params)
+      params[:sign] = get_sign(body, vendor_key)
       "https://m.wosai.cn/qr/gateway?#{params.to_query}"
     end
 
