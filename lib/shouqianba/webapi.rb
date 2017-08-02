@@ -93,7 +93,7 @@ module Shouqianba
       end
     end
 
-    def self.refund(terminal_sn, terminal_key, refund_request_no, refund_amount, options={})
+    def self.refund(terminal_sn, terminal_key, refund_request_no, operator, refund_amount, options={})
       params = {
         terminal_sn: terminal_sn,
         refund_request_no: refund_request_no,
