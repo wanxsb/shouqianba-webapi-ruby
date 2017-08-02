@@ -33,7 +33,7 @@ module Shouqianba
       end
     end
 
-    def self.checkin(vendor_sn, vendor_key, terminal_sn, device_id, options={})
+    def self.checkin(terminal_sn, terminal_key, device_id, options={})
       params = {
         terminal_sn: terminal_sn,
         device_id: device_id
@@ -41,12 +41,12 @@ module Shouqianba
           os_info: options[:os_info],
           sdk_version: options[:sdk_version]
         })
-      self.post_method "/terminal/checkin", vendor_sn, vendor_key, {}, params do |resp|
+      self.post_method "/terminal/checkin", terminal_sn, terminal_key, {}, params do |resp|
         yield(resp)
       end
     end
 
-    def self.pay(vendor_sn, vendor_key, terminal_sn, client_sn, total_amount, dynamic_id, subject, operator, options={})
+    def self.pay(terminal_sn, terminal_key, client_sn, total_amount, dynamic_id, subject, operator, options={})
       params = {
         terminal_sn: terminal_sn,
         client_sn: client_sn,
@@ -64,13 +64,13 @@ module Shouqianba
           reflect: options[:reflect],
           notify_url: options[:notify_url]
         })
-      self.post_method "/terminal/upay/v2/pay", vendor_sn, vendor_key, {}, params do |resp|
+      self.post_method "/terminal/upay/v2/pay", terminal_sn, terminal_key, {}, params do |resp|
         yield(resp)
       end
     end
 
 
-    def self.precreate(vendor_sn, vendor_key, terminal_sn, client_sn, total_amount, payway, subject, operator, options={})
+    def self.precreate(terminal_sn, terminal_key, client_sn, total_amount, payway, subject, operator, options={})
       params = {
         terminal_sn: terminal_sn,
         client_sn: client_sn,
@@ -88,12 +88,12 @@ module Shouqianba
           reflect: options[:reflect],
           notify_url: options[:notify_url]
         })
-      self.post_method "/upay/v2/precreate", vendor_sn, vendor_key, {}, params do |resp|
+      self.post_method "/upay/v2/precreate", terminal_sn, terminal_key, {}, params do |resp|
         yield(resp)
       end
     end
 
-    def self.refund(vendor_sn, vendor_key, terminal_sn, refund_request_no, options={})
+    def self.refund(terminal_sn, terminal_key, refund_request_no, options={})
       params = {
         terminal_sn: terminal_sn,
         refund_request_no: refund_request_no,
@@ -105,31 +105,31 @@ module Shouqianba
           client_tsn: options[:client_tsn],
 
         })
-      self.post_method "/upay/v2/refund", vendor_sn, vendor_key, {}, params do |resp|
+      self.post_method "/upay/v2/refund", terminal_sn, terminal_key, {}, params do |resp|
         yield(resp)
       end
     end
 
-    def self.cancel(vendor_sn, vendor_key, terminal_sn, device_id, options={})
+    def self.cancel(terminal_sn, terminal_key, device_id, options={})
       params = {
         terminal_sn: terminal_sn
         }.merge({
           sn: options[:sn],
           client_sn: options[:client_sn]
         })
-      self.post_method "/upay/v2/cancel", vendor_sn, vendor_key, {}, params do |resp|
+      self.post_method "/upay/v2/cancel", terminal_sn, terminal_key, {}, params do |resp|
         yield(resp)
       end
     end
 
-    def self.query(vendor_sn, vendor_key, terminal_sn, options={})
+    def self.query(terminal_sn, terminal_key, options={})
       params = {
         terminal_sn: terminal_sn
       }.merge({
         sn: options[:sn],
         client_sn: options[:client_sn]
       })
-      self.post_method "/upay/v2/query", vendor_sn, vendor_key, {}, params do |resp|
+      self.post_method "/upay/v2/query", terminal_sn, terminal_key, {}, params do |resp|
         yield(resp)
       end
     end
@@ -156,19 +156,19 @@ module Shouqianba
     end
 
 
-    def self.get_sign(body, vendor_key)
+    def self.get_sign(body, vendor_or_terminal_key)
       Digest::MD5.hexdigest(body+ vendor_key)
     end
 
     # 如果body是字符串，则直接作为请求的内容。如果body是其他类型，则会在内部调用to_json
-    def self.post_method(url, vendor_sn, vendor_key, params={}, body={})
+    def self.post_method(url, vendor_or_terminal_sn, vendor_or_terminal_key, params={}, body={})
       uri = URI.parse("#{ShouqianbaHost}#{url}?#{params.to_query}")
       https = Net::HTTP.new(uri.host,uri.port)
       https.open_timeout = 60
       https.read_timeout = 60
       https.use_ssl = true
       body = body.is_a?(String) ? body : JSON.generate(body)
-      req = Net::HTTP::Post.new(uri.request_uri, initheader = {'Content-Type' =>'application/json', 'Authorization' => "#{vendor_sn} #{self.get_sign(body, vendor_key)}"})
+      req = Net::HTTP::Post.new(uri.request_uri, initheader = {'Content-Type' =>'application/json', 'Authorization' => "#{vendor_or_terminal_sn} #{self.get_sign(body, vendor_or_terminal_key)}"})
       req.body = body
       response = https.request(req)
       data = ActiveSupport::JSON.decode(response.body).to_options
