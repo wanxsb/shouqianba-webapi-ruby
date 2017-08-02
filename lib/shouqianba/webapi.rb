@@ -151,7 +151,7 @@ module Shouqianba
         reflect: options[:reflect],
         notify_url: options[:notify_url]
         })
-      params[:sign] = get_wrap2_sign(body, terminal_key)
+      params[:sign] = get_wrap2_sign(params, terminal_key)
       "https://m.wosai.cn/qr/gateway?#{params.to_query}"
     end
 
