@@ -134,7 +134,7 @@ module Shouqianba
       end
     end
 
-    def self.wap2_url(terminal_sn, client_sn, total_amount, subject, operator, return_url, options={})
+    def self.wap2_url(terminal_sn, terminal_key, client_sn, total_amount, subject, operator, return_url, options={})
       params = {
         terminal_sn: terminal_sn,
         client_sn: client_sn,
@@ -151,7 +151,7 @@ module Shouqianba
         reflect: options[:reflect],
         notify_url: options[:notify_url]
         })
-      params[:sign] = get_wrap2_sign(body, vendor_key)
+      params[:sign] = get_wrap2_sign(body, terminal_key)
       "https://m.wosai.cn/qr/gateway?#{params.to_query}"
     end
 
