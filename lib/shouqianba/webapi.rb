@@ -150,9 +150,12 @@ module Shouqianba
         reflect: options[:reflect],
         notify_url: options[:notify_url]
         })
-      body = params.is_a?(String) ? params : JSON.generate(params)
-      params[:sign] = get_sign(body, vendor_key)
+      params[:sign] = get_wrap2_sign(body, vendor_key)
       "https://m.wosai.cn/qr/gateway?#{params.to_query}"
+    end
+
+    def self.get_wrap2_sign(params, terminal_key)
+      Digest::MD5.hexdigest("#{params.to_query}&#{terminal_key}").upcase
     end
 
 
