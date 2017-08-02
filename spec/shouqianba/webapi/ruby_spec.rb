@@ -1,8 +1,8 @@
 require "spec_helper"
 
-RSpec.describe Shouqianba::Webapi::Ruby do
+RSpec.describe Shouqianba::Webapi do
   it "has a version number" do
-    expect(Shouqianba::Webapi::Ruby::VERSION).not_to be nil
+    expect(Shouqianba::Webapi::VERSION).not_to be nil
   end
 
   it "does something useful" do
