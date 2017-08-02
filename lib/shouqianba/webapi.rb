@@ -64,7 +64,7 @@ module Shouqianba
           reflect: options[:reflect],
           notify_url: options[:notify_url]
         })
-      self.post_method "/terminal/upay/v2/pay", terminal_sn, terminal_key, {}, params do |resp|
+      self.post_method "/upay/v2/pay", terminal_sn, terminal_key, {}, params do |resp|
         yield(resp)
       end
     end
