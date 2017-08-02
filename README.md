@@ -69,6 +69,13 @@ gem 'shouqianba-webapi-ruby'
   end
 ```
 
+查询接口：wap2_url
+```
+  Shouqianba::Webapi.wap2_url(terminal_sn, client_sn, total_amount, subject, operator, return_url, options={}) do |resp|
+    # 处理终端返回跳转链接地址
+  end
+```
+
 ## Development
 
 

@@ -134,12 +134,13 @@ module Shouqianba
       end
     end
 
-    def self.wap2_url(vendor_sn, vendor_key, terminal_sn, client_sn, total_amount, subject, operator, return_url, options={})
+    def self.wap2_url(terminal_sn, client_sn, total_amount, subject, operator, return_url, options={})
       params = {
         terminal_sn: terminal_sn,
         client_sn: client_sn,
         total_amount: total_amount,
         subject: subject,
+        operator: operator,
         return_url: return_url
       }.merge({
         payway: options[:payway],
