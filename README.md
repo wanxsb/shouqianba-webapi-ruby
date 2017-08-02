@@ -50,14 +50,14 @@ gem 'shouqianba-webapi-ruby'
 
 退款接口：refund
 ```
-  Shouqianba::Webapi.refund(terminal_sn, terminal_key, refund_request_no, refund_amount, options={}) do |resp|
+  Shouqianba::Webapi.refund(terminal_sn, terminal_key, refund_request_no, operator, refund_amount, options={}) do |resp|
     # 处理终端返回信息
   end
 ```
 
 撤单接口：cancel
 ```
-  Shouqianba::Webapi.cancel(terminal_sn, terminal_key, device_id, options={}) do |resp|
+  Shouqianba::Webapi.cancel(terminal_sn, terminal_key, options={}) do |resp|
     # 处理终端返回信息
   end
 ```

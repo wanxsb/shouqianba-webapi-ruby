@@ -110,7 +110,7 @@ module Shouqianba
       end
     end
 
-    def self.cancel(terminal_sn, terminal_key, device_id, options={})
+    def self.cancel(terminal_sn, terminal_key, options={})
       params = {
         terminal_sn: terminal_sn
         }.merge({
