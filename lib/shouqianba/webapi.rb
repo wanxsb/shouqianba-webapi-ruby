@@ -157,7 +157,7 @@ module Shouqianba
 
 
     def self.get_sign(body, vendor_or_terminal_key)
-      Digest::MD5.hexdigest(body+ vendor_key)
+      Digest::MD5.hexdigest(body+ vendor_or_terminal_key)
     end
 
     # 如果body是字符串，则直接作为请求的内容。如果body是其他类型，则会在内部调用to_json
