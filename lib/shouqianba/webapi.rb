@@ -134,6 +134,26 @@ module Shouqianba
       end
     end
 
+    def self.wap2_url(vendor_sn, vendor_key, terminal_sn, client_sn, total_amount, subject, operator, return_url, options)
+      params = {
+        terminal_sn: terminal_sn,
+        client_sn: client_sn,
+        total_amount: total_amount,
+        subject: subject,
+        return_url: return_url
+      }.merge({
+        payway: options[:payway],
+        description: options[:description],
+        longitude: options[:longitude],
+        latitude: options[:latitude],
+        extended: options[:extended],
+        reflect: options[:reflect],
+        notify_url: options[:notify_url]
+        })
+      params[:sign] = get_sign(params, vendor_key)
+      "https://m.wosai.cn/qr/gateway?#{params.to_query}"
+    end
+
 
     def self.get_sign(body, vendor_key)
       Digest::MD5.hexdigest(body+ vendor_key)
