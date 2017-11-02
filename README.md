@@ -1,6 +1,6 @@
 # Shouqianba::Webapi
 
-该Gem包主要面向收钱吧支付平台文档(https://www.gitbook.com/book/wosai/shouqianba-doc) 进行开发，服务由收钱吧提供
+该Gem包主要面向收钱吧支付平台文档(https://doc.shouqianba.com/zh-cn/) 进行开发，服务由收钱吧提供
 
 ## Installation
 
